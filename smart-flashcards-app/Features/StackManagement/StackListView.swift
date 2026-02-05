@@ -90,14 +90,16 @@ struct StackListView: View {
     private var stackListView: some View {
         List {
             ForEach(viewModel.stacks, id: \.uniqueId) { stack in
-                StackRowView(stack: stack)
-                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                        Button(role: .destructive) {
-                            stackToDelete = stack
-                        } label: {
-                            Label(Strings.Stack.deleteConfirm, systemImage: "trash")
-                        }
+                NavigationLink(destination: StackDetailView(stack: stack)) {
+                    StackRowView(stack: stack)
+                }
+                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                    Button(role: .destructive) {
+                        stackToDelete = stack
+                    } label: {
+                        Label(Strings.Stack.deleteConfirm, systemImage: "trash")
                     }
+                }
             }
         }
         .contentMargins(.top, Theme.spacing4, for: .scrollContent)

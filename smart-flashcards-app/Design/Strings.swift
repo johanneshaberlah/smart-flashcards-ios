@@ -54,4 +54,21 @@ enum Strings {
         static let deleteError = "Stapel konnte nicht gelöscht werden"
         static let loadError = "Stapel konnten nicht geladen werden"
     }
+
+    // MARK: - Card
+    enum Card {
+        static let createCard = "Karte erstellen"
+        static let startLearning = "Jetzt lernen"
+        static let autoCreate = "Automatisch erstellen"
+        static let deleteTitle = "Karte löschen"
+        static let deleteMessage = "Möchtest du diese Karte wirklich löschen?"
+        static let deleteConfirm = "Löschen"
+        static let emptyState = "Noch keine Karten vorhanden"
+        static let deleteError = "Karte konnte nicht gelöscht werden"
+        static let loadError = "Karten konnten nicht geladen werden"
+        static let duePrefix = "Fällig:"
+        static let dueToday = "Heute"
+        static let question = "Vorderseite"
+        static let answer = "Rückseite"
+    }
 }

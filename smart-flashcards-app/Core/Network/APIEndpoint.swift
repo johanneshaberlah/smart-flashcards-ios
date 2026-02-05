@@ -6,6 +6,8 @@ enum APIEndpoint {
     case stacks
     case createStack
     case deleteStack(uniqueId: String)
+    case stack(uniqueId: String)
+    case deleteCard(stackId: String, cardId: String)
 
     private static let baseURL = "https://api.smart-flashcards.com"
 
@@ -19,6 +21,10 @@ enum APIEndpoint {
             return "/stack"
         case .deleteStack(let uniqueId):
             return "/stack/\(uniqueId)"
+        case .stack(let uniqueId):
+            return "/stack/\(uniqueId)"
+        case .deleteCard(let stackId, let cardId):
+            return "/stack/\(stackId)/card/\(cardId)"
         }
     }
 
@@ -30,9 +36,9 @@ enum APIEndpoint {
         switch self {
         case .login, .signup, .createStack:
             return "POST"
-        case .stacks:
+        case .stacks, .stack:
             return "GET"
-        case .deleteStack:
+        case .deleteStack, .deleteCard:
             return "DELETE"
         }
     }
