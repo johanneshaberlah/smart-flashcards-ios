@@ -7,7 +7,6 @@
 <p align="center">
   <strong>Learn smarter, not harder.</strong><br>
   An intelligent iOS flashcard app with AI-powered card generation.<br>
-  <a href="https://www.iu.de/news/en/iu-spirit-award-2025-these-dual-students-receive-this-years-innovation-award/">IU Spirit Award 2025: These dual students receive this year's innovation award</a>
 </p>
 
 <p align="center">
