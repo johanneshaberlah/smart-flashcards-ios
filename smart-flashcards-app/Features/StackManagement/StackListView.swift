@@ -60,7 +60,7 @@ struct StackListView: View {
             ProgressView()
             Text(Strings.Stack.loading)
                 .font(.body)
-                .foregroundStyle(Theme.gray600)
+                .foregroundStyle(.secondary)
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -76,7 +76,7 @@ struct StackListView: View {
 
             Text(Strings.Stack.emptyState)
                 .font(.body)
-                .foregroundStyle(Theme.gray600)
+                .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
 
             Spacer()

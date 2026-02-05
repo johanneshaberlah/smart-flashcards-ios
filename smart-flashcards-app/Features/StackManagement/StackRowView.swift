@@ -10,18 +10,14 @@ struct StackRowView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(stack.name)
                     .font(.headline)
-                    .foregroundStyle(Theme.gray900)
+                    .foregroundStyle(.primary)
 
                 Text(cardCountText)
                     .font(.subheadline)
-                    .foregroundStyle(Theme.gray600)
+                    .foregroundStyle(.secondary)
             }
 
             Spacer()
-
-            Image(systemName: "chevron.right")
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(Theme.gray300)
         }
         .padding(.vertical, 4)
     }

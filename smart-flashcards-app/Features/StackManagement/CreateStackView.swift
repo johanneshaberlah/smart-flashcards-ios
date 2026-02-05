@@ -21,7 +21,7 @@ struct CreateStackView: View {
                 if let errorMessage = viewModel.errorMessage {
                     Section {
                         Text(errorMessage)
-                            .foregroundStyle(Theme.errorText)
+                            .foregroundStyle(.red)
                     }
                 }
             }

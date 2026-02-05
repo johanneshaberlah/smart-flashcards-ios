@@ -106,7 +106,7 @@ struct LearningView: View {
                     .foregroundStyle(.white)
                     .frame(width: 44, height: 44)
             }
-            .glassEffect(.regular.tint(Theme.gray600).interactive(), in: .circle)
+            .glassEffect(.regular.tint(Theme.buttonTintNeutral).interactive(), in: .circle)
 
             Spacer()
 
@@ -149,7 +149,7 @@ struct LearningView: View {
                         .padding(.horizontal, 24)
                         .padding(.vertical, 12)
                 }
-                .glassEffect(.regular.tint(Theme.gray600).interactive())
+                .glassEffect(.regular.tint(Theme.buttonTintNeutral).interactive())
 
                 Button {
                     Task {

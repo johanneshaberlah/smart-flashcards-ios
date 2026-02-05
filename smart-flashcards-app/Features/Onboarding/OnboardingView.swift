@@ -25,14 +25,16 @@ struct OnboardingView: View {
 
     private var headerSection: some View {
         VStack(spacing: 12) {
-            Image(systemName: "rectangle.stack.fill")
-                .font(.system(size: 60))
-                .foregroundStyle(Theme.emerald600)
+            Image("smart flashcards brain (1024)")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 100, height: 100)
+                .clipShape(RoundedRectangle(cornerRadius: 22))
 
             Text(Strings.Onboarding.welcome)
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                .foregroundStyle(Theme.gray900)
+                .foregroundStyle(.primary)
         }
         .padding(.top, 60)
         .padding(.bottom, Theme.spacing6)
@@ -83,7 +85,7 @@ struct OnboardingView: View {
             if let error = viewModel.errorMessage {
                 Section {
                     Label(error, systemImage: "exclamationmark.circle")
-                        .foregroundStyle(Theme.errorText)
+                        .foregroundStyle(.red)
                 }
             }
 

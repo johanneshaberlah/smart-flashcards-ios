@@ -67,7 +67,7 @@ struct CardDetailView: View {
     private func errorSection(_ message: String) -> some View {
         Section {
             Text(message)
-                .foregroundStyle(Theme.errorText)
+                .foregroundStyle(.red)
         }
     }
 
@@ -100,7 +100,7 @@ struct CardDetailView: View {
                 .foregroundStyle(.white)
                 .frame(width: 44, height: 44)
         }
-        .glassEffect(.regular.tint(Theme.gray600).interactive(), in: .circle)
+        .glassEffect(.regular.tint(Theme.buttonTintNeutral).interactive(), in: .circle)
         .disabled(viewModel.isLoading)
     }
 

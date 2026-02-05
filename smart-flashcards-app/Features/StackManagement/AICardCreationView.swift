@@ -70,7 +70,7 @@ struct AICardCreationView: View {
                         viewModel.clearFile()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(Theme.gray300)
+                            .foregroundStyle(.tertiary)
                     }
                     .buttonStyle(.plain)
                 }
@@ -82,7 +82,7 @@ struct AICardCreationView: View {
                         Image(systemName: "doc.badge.plus")
                             .foregroundStyle(Theme.emerald600)
                         Text(Strings.AICardCreation.selectFile)
-                            .foregroundStyle(Theme.gray600)
+                            .foregroundStyle(.secondary)
                     }
                 }
             }
@@ -107,7 +107,7 @@ struct AICardCreationView: View {
     private func errorSection(_ message: String) -> some View {
         Section {
             Text(message)
-                .foregroundStyle(Theme.errorText)
+                .foregroundStyle(.red)
         }
     }
 
@@ -124,7 +124,7 @@ struct AICardCreationView: View {
 
             Text(viewModel.currentProgressMessage)
                 .font(.body)
-                .foregroundStyle(Theme.gray600)
+                .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .animation(.easeInOut(duration: 0.3), value: viewModel.currentProgressMessage)
                 .padding(.horizontal, 32)
@@ -157,7 +157,7 @@ struct AICardCreationView: View {
                 .foregroundStyle(.white)
                 .frame(width: 44, height: 44)
         }
-        .glassEffect(.regular.tint(Theme.gray600).interactive(), in: .circle)
+        .glassEffect(.regular.tint(Theme.buttonTintNeutral).interactive(), in: .circle)
     }
 
     private var generateButton: some View {

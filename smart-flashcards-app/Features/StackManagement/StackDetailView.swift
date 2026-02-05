@@ -107,7 +107,7 @@ struct StackDetailView: View {
             ProgressView()
             Text(Strings.Stack.loading)
                 .font(.body)
-                .foregroundStyle(Theme.gray600)
+                .foregroundStyle(.secondary)
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -123,7 +123,7 @@ struct StackDetailView: View {
 
             Text(Strings.Card.emptyState)
                 .font(.body)
-                .foregroundStyle(Theme.gray600)
+                .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
 
             Spacer()

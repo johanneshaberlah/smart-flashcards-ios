@@ -11,7 +11,7 @@ struct DashboardView: View {
                         Button(Strings.Dashboard.logout) {
                             appState.logout()
                         }
-                        .foregroundStyle(Theme.gray600)
+                        .foregroundStyle(.secondary)
                     }
                 }
         }

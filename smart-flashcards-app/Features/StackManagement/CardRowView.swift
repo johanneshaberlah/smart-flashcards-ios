@@ -8,12 +8,12 @@ struct CardRowView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(card.question)
                     .font(.headline)
-                    .foregroundStyle(Theme.gray900)
+                    .foregroundStyle(.primary)
                     .lineLimit(1)
 
                 Text(card.answer)
                     .font(.subheadline)
-                    .foregroundStyle(Theme.gray600)
+                    .foregroundStyle(.secondary)
                     .lineLimit(1)
 
                 if let maturity = card.maturity {
@@ -25,7 +25,7 @@ struct CardRowView: View {
 
             Image(systemName: "chevron.right")
                 .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(Theme.gray300)
+                .foregroundStyle(.tertiary)
         }
         .padding(.vertical, 4)
     }
@@ -36,7 +36,7 @@ struct CardRowView: View {
             HStack(spacing: 4) {
                 Text(Strings.Card.duePrefix)
                     .font(.caption)
-                    .foregroundStyle(Theme.gray600)
+                    .foregroundStyle(.secondary)
 
                 Text(formattedDate(date))
                     .font(.caption)
@@ -76,7 +76,7 @@ struct CardRowView: View {
         } else if date < now {
             return Theme.red500
         } else {
-            return Theme.gray600
+            return .secondary
         }
     }
 }
