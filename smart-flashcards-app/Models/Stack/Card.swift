@@ -7,4 +7,5 @@ struct Card: Codable, Identifiable {
     let answer: String
     let hint: String?
     let maturity: CardMaturity?
+    let difficultyAndDurations: [DifficultyAndDuration]?
 }

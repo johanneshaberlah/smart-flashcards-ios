@@ -1,10 +1,32 @@
 import SwiftUI
 
+enum CardDetailSheetItem: Identifiable {
+    case create
+    case edit(Card)
+
+    var id: String {
+        switch self {
+        case .create: return "create"
+        case .edit(let card): return card.uniqueId
+        }
+    }
+
+    var card: Card? {
+        switch self {
+        case .create: return nil
+        case .edit(let card): return card
+        }
+    }
+}
+
 struct StackDetailView: View {
     let stack: Stack
 
     @State private var viewModel: StackDetailViewModel
     @State private var cardToDelete: Card?
+    @State private var cardDetailSheet: CardDetailSheetItem?
+    @State private var showAICardCreation = false
+    @State private var showLearningSession = false
 
     init(stack: Stack) {
         self.stack = stack
@@ -46,6 +68,37 @@ struct StackDetailView: View {
         .task {
             await viewModel.loadStack()
         }
+        .sheet(item: $cardDetailSheet) { item in
+            CardDetailView(
+                stackId: stack.uniqueId,
+                card: item.card,
+                onCardSaved: { card in
+                    if case .edit = item {
+                        // Update existing card
+                        if let index = viewModel.cards.firstIndex(where: { $0.uniqueId == card.uniqueId }) {
+                            viewModel.cards[index] = card
+                        }
+                    } else {
+                        // Add new card
+                        viewModel.cards.insert(card, at: 0)
+                    }
+                },
+                onCardDeleted: {
+                    if case .edit(let editedCard) = item,
+                       let index = viewModel.cards.firstIndex(where: { $0.uniqueId == editedCard.uniqueId }) {
+                        viewModel.cards.remove(at: index)
+                    }
+                }
+            )
+        }
+        .fullScreenCover(isPresented: $showLearningSession) {
+            LearningView(stackId: stack.uniqueId) {
+                showLearningSession = false
+                Task {
+                    await viewModel.loadStack()
+                }
+            }
+        }
     }
 
     private var loadingView: some View {
@@ -85,6 +138,10 @@ struct StackDetailView: View {
         List {
             ForEach(viewModel.cards, id: \.uniqueId) { card in
                 CardRowView(card: card)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        cardDetailSheet = .edit(card)
+                    }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button(role: .destructive) {
                             cardToDelete = card
@@ -118,7 +175,7 @@ struct StackDetailView: View {
 
     private var startLearningButton: some View {
         Button {
-            // Placeholder - navigation to learning will be implemented later
+            showLearningSession = true
         } label: {
             HStack(spacing: 6) {
                 Image(systemName: "play.fill")
@@ -134,7 +191,7 @@ struct StackDetailView: View {
 
     private var createCardButton: some View {
         Button {
-            // Placeholder - navigation to create card will be implemented later
+            cardDetailSheet = .create
         } label: {
             Image(systemName: "plus")
                 .font(.system(size: 18, weight: .semibold))
@@ -146,7 +203,7 @@ struct StackDetailView: View {
 
     private var autoCreateButton: some View {
         Button {
-            // Placeholder - AI generation will be implemented later
+            showAICardCreation = true
         } label: {
             Image(systemName: "sparkles")
                 .font(.system(size: 18, weight: .semibold))
@@ -154,6 +211,13 @@ struct StackDetailView: View {
                 .frame(width: 44, height: 44)
         }
         .glassEffect(.regular.tint(Theme.amber500).interactive(), in: .circle)
+        .sheet(isPresented: $showAICardCreation) {
+            AICardCreationView(stackId: stack.uniqueId) {
+                Task {
+                    await viewModel.loadStack()
+                }
+            }
+        }
     }
 }
 
@@ -171,7 +235,8 @@ struct StackDetailView: View {
                     question: "What is photosynthesis?",
                     answer: "The process by which plants convert light energy",
                     hint: nil,
-                    maturity: CardMaturity(id: 1, maturity: "2026-02-15T10:00:00Z", level: 1)
+                    maturity: CardMaturity(id: 1, maturity: "2026-02-15T10:00:00Z", level: 1),
+                    difficultyAndDurations: nil
                 ),
                 Card(
                     id: 2,
@@ -179,7 +244,8 @@ struct StackDetailView: View {
                     question: "What is mitosis?",
                     answer: "Cell division resulting in two identical daughter cells",
                     hint: nil,
-                    maturity: nil
+                    maturity: nil,
+                    difficultyAndDurations: nil
                 )
             ]
         ))

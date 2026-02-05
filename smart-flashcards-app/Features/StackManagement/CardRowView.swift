@@ -89,7 +89,8 @@ struct CardRowView: View {
             question: "What is photosynthesis?",
             answer: "The process by which plants convert light energy into chemical energy",
             hint: nil,
-            maturity: CardMaturity(id: 1, maturity: "2026-02-15T10:00:00Z", level: 1)
+            maturity: CardMaturity(id: 1, maturity: "2026-02-15T10:00:00Z", level: 1),
+            difficultyAndDurations: nil
         ))
     }
 }

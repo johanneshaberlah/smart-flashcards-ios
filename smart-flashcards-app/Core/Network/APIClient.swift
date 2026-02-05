@@ -31,6 +31,8 @@ actor APIClient {
         request.httpBody = try encoder.encode(body)
 
         print("[APIClient] Request URL: \(url)")
+        print("LoremIpsumDolor")
+        print("[APIClient] Request Method: \(request.httpMethod)")
         print("[APIClient] Request body: \(String(data: request.httpBody ?? Data(), encoding: .utf8) ?? "nil")")
 
         let data: Data
@@ -205,6 +207,8 @@ actor APIClient {
         request.httpBody = try encoder.encode(body)
 
         print("[APIClient] Request URL: \(url)")
+        print("LoremIpsumDolor")
+        print("[APIClient] Request Method: \(request.httpMethod)")
         print("[APIClient] Request body: \(String(data: request.httpBody ?? Data(), encoding: .utf8) ?? "nil")")
 
         let data: Data
@@ -234,6 +238,62 @@ actor APIClient {
         guard (200...299).contains(httpResponse.statusCode) else {
             let errorResponse = try? decoder.decode(APIErrorResponse.self, from: data)
             print("[APIClient] HTTP error - status: \(httpResponse.statusCode), message: \(errorResponse?.message ?? "nil")")
+            throw APIError.httpError(
+                statusCode: httpResponse.statusCode,
+                message: errorResponse?.message
+            )
+        }
+    }
+
+    func uploadMultipartFormData(
+        endpoint: APIEndpoint,
+        formData: MultipartFormData,
+        token: String? = nil
+    ) async throws {
+        guard let url = endpoint.url else {
+            throw APIError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = endpoint.method
+        request.setValue(formData.contentType, forHTTPHeaderField: "Content-Type")
+
+        if let token = token {
+            request.setValue(token, forHTTPHeaderField: "Authorization")
+        }
+
+        request.httpBody = formData.finalize()
+
+        print("[APIClient] Upload Request URL: \(url)")
+        print("[APIClient] Upload Content-Type: \(formData.contentType)")
+
+        let data: Data
+        let response: URLResponse
+
+        do {
+            (data, response) = try await URLSession.shared.data(for: request)
+        } catch {
+            print("[APIClient] Upload network error: \(error)")
+            throw APIError.networkError(error)
+        }
+
+        print("[APIClient] Upload Response data: \(String(data: data, encoding: .utf8) ?? "nil")")
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            print("[APIClient] Upload Invalid response - not HTTPURLResponse")
+            throw APIError.invalidResponse
+        }
+
+        print("[APIClient] Upload HTTP Status Code: \(httpResponse.statusCode)")
+
+        if httpResponse.statusCode == 401 {
+            print("[APIClient] Upload Unauthorized (401)")
+            throw APIError.unauthorized
+        }
+
+        guard (200...299).contains(httpResponse.statusCode) else {
+            let errorResponse = try? decoder.decode(APIErrorResponse.self, from: data)
+            print("[APIClient] Upload HTTP error - status: \(httpResponse.statusCode), message: \(errorResponse?.message ?? "nil")")
             throw APIError.httpError(
                 statusCode: httpResponse.statusCode,
                 message: errorResponse?.message
