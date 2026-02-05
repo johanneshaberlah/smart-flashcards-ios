@@ -46,10 +46,14 @@ final class OnboardingViewModel {
             triggerSuccessHaptic()
             return response
         } catch let error as APIError {
+            print("[OnboardingViewModel] Login APIError caught: \(error)")
+            print("[OnboardingViewModel] Error description: \(error.errorDescription ?? "nil")")
             errorMessage = error.userMessage
             triggerErrorHaptic()
             throw error
         } catch {
+            print("[OnboardingViewModel] Login unknown error: \(error)")
+            print("[OnboardingViewModel] Error type: \(type(of: error))")
             errorMessage = Strings.APIError.unknownError
             triggerErrorHaptic()
             throw error
@@ -70,10 +74,14 @@ final class OnboardingViewModel {
             triggerSuccessHaptic()
             return response
         } catch let error as APIError {
+            print("[OnboardingViewModel] Register APIError caught: \(error)")
+            print("[OnboardingViewModel] Error description: \(error.errorDescription ?? "nil")")
             errorMessage = error.userMessage
             triggerErrorHaptic()
             throw error
         } catch {
+            print("[OnboardingViewModel] Register unknown error: \(error)")
+            print("[OnboardingViewModel] Error type: \(type(of: error))")
             errorMessage = Strings.APIError.unknownError
             triggerErrorHaptic()
             throw error

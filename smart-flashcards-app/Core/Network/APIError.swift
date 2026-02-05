@@ -27,7 +27,11 @@ enum APIError: Error, LocalizedError {
 
     var userMessage: String {
         switch self {
-        case .httpError(_, let message):
+        case .httpError(let statusCode, let message):
+            // For 400 Bad Request with no message (e.g., login with wrong credentials)
+            if statusCode == 400 && message == nil {
+                return Strings.APIError.loginFailed
+            }
             return mapAPIMessage(message)
         case .networkError:
             return Strings.APIError.networkError
@@ -37,6 +41,8 @@ enum APIError: Error, LocalizedError {
     }
 
     private func mapAPIMessage(_ message: String?) -> String {
+        print("[APIError] Mapping message: \(message ?? "nil")")
+
         guard let message = message else {
             return Strings.APIError.unknownError
         }
