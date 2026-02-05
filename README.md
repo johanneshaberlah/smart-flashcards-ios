@@ -93,7 +93,7 @@ No more hours spent manually creating cards. Focus on learning, not preparation.
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/smart-flashcards-app.git
+   git clone https://github.com/johanneshaberlah/smart-flashcards-app.git
    ```
 
 2. Open the project in Xcode
