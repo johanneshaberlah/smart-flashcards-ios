@@ -42,13 +42,13 @@ struct LearningCardView: View {
         .alert(Strings.Learning.hint, isPresented: $showHint) {
             Button("OK", role: .cancel) { }
         } message: {
-            Text(card.hint ?? "")
+            Text(card.cleanedHint ?? "")
         }
     }
 
     private var cardFront: some View {
         VStack(spacing: 16) {
-            if card.hint != nil && !card.hint!.isEmpty {
+            if card.cleanedHint != nil && !card.cleanedHint!.isEmpty {
                 HStack {
                     Spacer()
                     hintButton

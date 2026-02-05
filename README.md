@@ -60,10 +60,12 @@
   <tr>
     <td align="center"><strong>Learning: Question</strong></td>
     <td align="center"><strong>Learning: Answer</strong></td>
+    <td align="center"><strong>Learning: Hint</strong></td>
   </tr>
   <tr>
     <td><img src="screenshots/learning:question.png" width="250"></td>
     <td><img src="screenshots/learning:answer.png" width="250"></td>
+    <td><img src="screenshots/learning:hint.png" width="250"></td>
   </tr>
 </table>
 

@@ -8,4 +8,17 @@ struct Card: Codable, Identifiable {
     let hint: String?
     let maturity: CardMaturity?
     let difficultyAndDurations: [DifficultyAndDuration]?
+
+    var cleanedHint: String? {
+        guard let hint else { return nil }
+        let prefix = "Hinweis:"
+        if hint.hasPrefix(prefix) {
+            var result = String(hint.dropFirst(prefix.count))
+            while result.first?.isWhitespace == true || result.first?.isNewline == true {
+                result.removeFirst()
+            }
+            return result
+        }
+        return hint
+    }
 }
