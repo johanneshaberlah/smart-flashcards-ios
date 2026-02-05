@@ -1,24 +1,28 @@
-//
-//  ContentView.swift
-//  smart-flashcards-app
-//
-//  Created by Johannes Haberlah on 03.02.26.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(AppState.self) private var appState
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            if appState.isAuthenticated {
+                DashboardView()
+            } else {
+                OnboardingView()
+            }
         }
-        .padding()
+        .animation(.default, value: appState.isAuthenticated)
     }
 }
 
-#Preview {
+#Preview("Logged Out") {
     ContentView()
+        .environment(AppState())
+}
+
+#Preview("Logged In") {
+    let appState = AppState()
+    appState.login(token: "test", username: "Max")
+    return ContentView()
+        .environment(appState)
 }

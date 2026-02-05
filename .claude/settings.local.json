@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xcodebuild:*)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(git -C /Users/jhaberlah/projects/smart-flashcards-app log --oneline -10)",
+      "Bash(git -C /Users/jhaberlah/projects/smart-flashcards-app diff HEAD smart-flashcards-app.xcodeproj/project.pbxproj)",
+      "Bash(git -C /Users/jhaberlah/projects/smart-flashcards-app show 900fdce:smart-flashcards-app.xcodeproj/project.pbxproj)",
+      "Bash(git -C /Users/jhaberlah/projects/smart-flashcards-app show 900fdce:smart-flashcards-app/smart_flashcards_appApp.swift)",
+      "Bash(git -C /Users/jhaberlah/projects/smart-flashcards-app diff 900fdce HEAD smart-flashcards-app.xcodeproj/project.pbxproj)",
+      "Bash(ls:*)"
+    ]
+  }
+}
