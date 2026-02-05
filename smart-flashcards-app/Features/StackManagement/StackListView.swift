@@ -3,15 +3,19 @@ import SwiftUI
 struct StackListView: View {
     @State private var viewModel = StackListViewModel()
     @State private var showCreateSheet = false
+    @State private var stackToDelete: Stack?
 
     var body: some View {
-        Group {
+        ZStack {
+            // List always exists - just hidden when empty to prevent UICollectionView crash
+            stackListView
+                .opacity(viewModel.stacks.isEmpty && !viewModel.isLoading ? 0 : 1)
+
+            // Overlay states on top
             if viewModel.isLoading && viewModel.stacks.isEmpty {
                 loadingView
             } else if viewModel.stacks.isEmpty {
                 emptyStateView
-            } else {
-                stackListView
             }
         }
         .navigationTitle(Strings.Stack.title)
@@ -31,10 +35,10 @@ struct StackListView: View {
         .alert(
             Strings.Stack.deleteTitle,
             isPresented: Binding(
-                get: { viewModel.stackToDelete != nil },
-                set: { if !$0 { viewModel.stackToDelete = nil } }
+                get: { stackToDelete != nil },
+                set: { if !$0 { stackToDelete = nil } }
             ),
-            presenting: viewModel.stackToDelete
+            presenting: stackToDelete
         ) { stack in
             Button(Strings.Stack.cancel, role: .cancel) { }
             Button(Strings.Stack.deleteConfirm, role: .destructive) {
@@ -89,7 +93,7 @@ struct StackListView: View {
                 StackRowView(stack: stack)
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button(role: .destructive) {
-                            viewModel.confirmDelete(stack: stack)
+                            stackToDelete = stack
                         } label: {
                             Label(Strings.Stack.deleteConfirm, systemImage: "trash")
                         }

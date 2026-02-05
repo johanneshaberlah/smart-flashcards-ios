@@ -8,7 +8,6 @@ final class StackListViewModel {
     var stacks: [Stack] = []
     var isLoading: Bool = false
     var errorMessage: String?
-    var stackToDelete: Stack?
 
     func loadStacks() async {
         isLoading = true
@@ -29,24 +28,32 @@ final class StackListViewModel {
         isLoading = false
     }
 
-    func confirmDelete(stack: Stack) {
-        stackToDelete = stack
-    }
-
     func deleteStack(_ stack: Stack) async {
+        guard let index = stacks.firstIndex(where: { $0.uniqueId == stack.uniqueId }) else {
+            return
+        }
+
+        let deletedStack = stacks[index]
+
+        withAnimation {
+            stacks.remove(at: index)
+        }
+
         do {
             try await StackService.deleteStack(uniqueId: stack.uniqueId)
-            stackToDelete = nil
-            withAnimation {
-                stacks.removeAll { $0.uniqueId == stack.uniqueId }
-            }
             triggerSuccessHaptic()
         } catch let error as APIError {
             print("[StackListViewModel] Delete error: \(error)")
+            withAnimation {
+                stacks.insert(deletedStack, at: min(index, stacks.count))
+            }
             errorMessage = error.userMessage
             triggerErrorHaptic()
         } catch {
             print("[StackListViewModel] Delete unknown error: \(error)")
+            withAnimation {
+                stacks.insert(deletedStack, at: min(index, stacks.count))
+            }
             errorMessage = Strings.Stack.deleteError
             triggerErrorHaptic()
         }
